@@ -1,6 +1,7 @@
 package com.community.dto;
 
 import lombok.Data;
+import lombok.ToString;
 
 /**
  * @Classname GitHubUser
@@ -9,6 +10,7 @@ import lombok.Data;
  * @Created by Tengxq
  */
 @Data
+@ToString
 public class GitHubUser {
     private String name;
     private String bio;
