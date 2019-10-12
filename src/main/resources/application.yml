@@ -1,2 +1,7 @@
 server:
   port: 8090
+github:
+  client:
+    id: Iv1.7dfb08ee8d449c3b
+    secret: 28b16030a5ad967b1788eae7812cd7dbfcd4ee36
+  redirect_uri: http://localhost:8090/callback
