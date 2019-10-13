@@ -5,3 +5,21 @@ github:
     id: Iv1.7dfb08ee8d449c3b
     secret: 28b16030a5ad967b1788eae7812cd7dbfcd4ee36
   redirect_uri: http://localhost:8090/callback
+#数据库信息配置
+#spring:
+# application:
+#    name: springcloud-provider-dept-8001  #应用名称
+#  datasource:
+#    url: jdbc:mysql://116.62.47.183:3306/cloudDB01?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&verifyServerCertificate=false&useSSL=false
+#    username: root
+#    password: 980522
+#    driver-class-name: com.mysql.jdbc.Driver
+#数据库信息配置
+spring:
+  application:
+    name: springcloud-provider-dept-8001  #应用名称
+  datasource:
+    url: jdbc:h2:~/community2
+    username: root
+    password: 980522
+    driver-class-name: org.h2.Driver
