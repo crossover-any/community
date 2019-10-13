@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
 /**
@@ -38,8 +40,8 @@ public class AuthorizeController {
     private String client_secret;
 
     @GetMapping("/callback")
-    public String callback(@RequestParam(name = "code",required = false) String code,@RequestParam(name = "state",required = false) String state,
-                                          HttpServletRequest request){
+    public String callback(@RequestParam(name = "code",required = false) String code, @RequestParam(name = "state",required = false) String state,
+                           HttpServletRequest request, HttpServletResponse response){
 
         AccesstokenDTO accesstokenDTO = new AccesstokenDTO();
         accesstokenDTO.setClient_id(client_id);
@@ -59,7 +61,8 @@ public class AuthorizeController {
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
             userMapper.insertUser(user);
-            request.getSession().setAttribute("user",gitHubUseruser);
+            response.addCookie(new Cookie("token",user.getToken()));
+//            request.getSession().setAttribute("user",gitHubUseruser);
             return "redirect:/";
         }
     }
