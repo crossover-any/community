@@ -17,7 +17,7 @@ github:
 #数据库信息配置
 spring:
   application:
-    name: springcloud-provider-dept-8001  #应用名称
+    name: community  #应用名称
   datasource:
     url: jdbc:h2:~/community2
     username: root
