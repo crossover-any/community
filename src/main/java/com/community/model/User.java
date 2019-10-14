@@ -19,4 +19,5 @@ public class User {
     private String accountId;
     private Long gmtCreate;
     private Long gmtModified;
+    private String bio;
 }
