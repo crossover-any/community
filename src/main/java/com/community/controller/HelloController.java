@@ -1,7 +1,9 @@
 package com.community.controller;
 
+import com.community.dto.QuestionDTO;
 import com.community.mapper.UserMapper;
 import com.community.model.User;
+import com.community.service.QuestionServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * @Classname HelloController
@@ -21,6 +24,9 @@ import javax.servlet.http.HttpServletRequest;
 public class HelloController {
 
     @Autowired
+    private QuestionServer questionServer;
+
+    @Autowired
     private UserMapper userMapper;
 
     @GetMapping("/hello")
@@ -30,18 +36,22 @@ public class HelloController {
     }
 
     @GetMapping("/")
-    public String index(HttpServletRequest request){
+    public String index(HttpServletRequest request,Model model){
         Cookie[] cookies = request.getCookies();
-        for(Cookie cookie : cookies){
-            if (cookie.getName().equals("token")){
-                String token = cookie.getValue();
-                User user = userMapper.findByToken(token);
-                if (user != null){
-                    request.getSession().setAttribute("user",user);
+        if (null != cookies){
+            for(Cookie cookie : cookies){
+                if (cookie.getName().equals("token")){
+                    String token = cookie.getValue();
+                    User user = userMapper.findByToken(token);
+                    if (user != null){
+                        request.getSession().setAttribute("user",user);
+                    }
+                    break;
                 }
-                break;
             }
         }
+        List<QuestionDTO> questions = questionServer.list();
+        model.addAttribute("questions",questions);
         return "index";
     }
 }

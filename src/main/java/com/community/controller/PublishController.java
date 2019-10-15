@@ -42,9 +42,11 @@ public class PublishController {
                               Model model){
         Cookie[] cookies = request.getCookies();
         User user = null;
-        for(Cookie cookie : cookies){
-            if (cookie.getName().equals("token")){
-                user = userMapper.findByToken(cookie.getValue());
+        if (null != cookies ){
+            for(Cookie cookie : cookies){
+                if (cookie.getName().equals("token")){
+                    user = userMapper.findByToken(cookie.getValue());
+                }
             }
         }
         if (null == user){
