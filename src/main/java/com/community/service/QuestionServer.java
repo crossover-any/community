@@ -26,8 +26,8 @@ public class QuestionServer {
     private UserMapper userMapper;
 
 
-    public List<QuestionDTO> list() {
-        List<Question> questionList = questionMapper.list();
+    public List<QuestionDTO> list(Integer page, Integer size) {
+        List<Question> questionList = questionMapper.list((page-1)*size,size);
         List<QuestionDTO> list = new ArrayList<>();
         for(Question question :questionList){
             QuestionDTO questionDTO = new QuestionDTO();

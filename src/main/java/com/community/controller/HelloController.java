@@ -1,6 +1,8 @@
 package com.community.controller;
 
+import com.community.dto.PaginationDTO;
 import com.community.dto.QuestionDTO;
+import com.community.mapper.QuestionMapper;
 import com.community.mapper.UserMapper;
 import com.community.model.User;
 import com.community.service.QuestionServer;
@@ -29,6 +31,8 @@ public class HelloController {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private QuestionMapper questionMapper;
     @GetMapping("/hello")
     public String hello(@RequestParam(name = "name",required = false,defaultValue = "world") String name, Model model){
         model.addAttribute("name",name);
@@ -36,7 +40,9 @@ public class HelloController {
     }
 
     @GetMapping("/")
-    public String index(HttpServletRequest request,Model model){
+    public String index(HttpServletRequest request,Model model,
+                        @RequestParam(name = "page",defaultValue = "1")Integer page,
+                        @RequestParam(name = "size",defaultValue = "2")Integer size){
         Cookie[] cookies = request.getCookies();
         if (null != cookies){
             for(Cookie cookie : cookies){
@@ -50,8 +56,12 @@ public class HelloController {
                 }
             }
         }
-        List<QuestionDTO> questions = questionServer.list();
-        model.addAttribute("questions",questions);
+        List<QuestionDTO> questions = questionServer.list(page,size);
+        PaginationDTO paginationDTO = new PaginationDTO();
+        paginationDTO.setQuestions(questions);
+        Integer totalCount = questionMapper.allCount();
+        paginationDTO.setPagination(page,size,totalCount);
+        model.addAttribute("page",paginationDTO);
         return "index";
     }
 }
