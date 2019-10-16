@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -33,7 +34,9 @@ public class ProfileController {
     private QuestionServer questionServer;
 
     @GetMapping("/myQuestions")
-    public String myQuestions( Model model, HttpServletRequest request){
+    public String myQuestions(Model model, HttpServletRequest request,
+                              @RequestParam(name = "page",defaultValue = "1")Integer page,
+                              @RequestParam(name = "size",defaultValue = "2")Integer size){
         Cookie[] cookies = request.getCookies();
         User user = null;
         if (null != cookies){
@@ -50,8 +53,10 @@ public class ProfileController {
         }
         if (null == user)
             return "redirect:/";
+        PaginationDTO paginationDTO =  questionServer.myQuestionsPage(page,size,user);
         model.addAttribute("sectionName","我的问题");
         model.addAttribute("section","myQuestions");
+        model.addAttribute("page",paginationDTO);
         return "profile";
     }
 
