@@ -9,7 +9,7 @@
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
                     <span class="sr-only">发布-码匠社区</span>
                 </button>
-                <a class="navbar-brand" href="#">码匠社区</a>
+                <a class="navbar-brand" href="/">码匠社区</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -22,13 +22,14 @@
                 </form>
                 <ul class="nav navbar-nav navbar-right">
                     <li th:if="${session.user == null}"><a href="https://github.com/login/oauth/authorize?client_id=Iv1.7dfb08ee8d449c3b&redirect_uri=http://localhost:8090/callback&scope=user&state=1">登录</a></li>
+                    <li th:if="${isQuestion != '1' }"><a href="/publish">提问</a></li>
                     <li class="dropdown" th:if="${session.user != null}">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" >
                             <span th:text="${session.user.getName()}"></span>
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">我的问题</a></li>
+                            <li><a href="/profile/myQuestions">我的问题</a></li>
                             <li><a href="#">消息中心</a></li>
                             <li><a href="#">个人资料</a></li>
                             <li><a href="#">退出登录</a></li>

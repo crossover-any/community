@@ -55,6 +55,7 @@ public class PublishController {
         model.addAttribute("title",title);
         model.addAttribute("description",description);
         model.addAttribute("tag",tag);
+        model.addAttribute("isQuestion","1");
         if (StringUtils.isEmpty(title)){
             model.addAttribute("error","error:标题不能为空");
             return "publish";
