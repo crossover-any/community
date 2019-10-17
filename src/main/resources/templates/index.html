@@ -35,12 +35,12 @@
                 <ul class="pagination">
                     <li th:if="${page.isShowFirstPage()}">
                         <a th:href="@{/}" aria-label="Previous">
-                            <span aria-hidden="true">&lt;</span>
+                            <span aria-hidden="true">&lt;&lt;</span>
                         </a>
                     </li>
                     <li th:if="${page.isShowPrePage()}">
                         <a th:href="@{/(page=${page.page-1})}" aria-label="Previous">
-                            <span aria-hidden="true">&lt;&lt;</span>
+                            <span aria-hidden="true">&lt;</span>
                         </a>
                     </li>
                     <li th:each="pageNum : ${page.getPages()}" th:class="${page.page==pageNum}?'active':''">
