@@ -2,14 +2,13 @@ package com.community.controller;
 
 import com.community.dto.AccesstokenDTO;
 import com.community.dto.GitHubUser;
-import com.community.mapper.UserMapper;
 import com.community.model.User;
 import com.community.provider.GitHubProvider;
+import com.community.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.Cookie;
@@ -30,7 +29,7 @@ public class AuthorizeController {
     private GitHubProvider gitHubProvider;
 
     @Autowired
-    private UserMapper userMapper;
+    private UserService userService;
 
     @Value("${github.redirect_uri}")
     private String redirect_uri;
@@ -40,8 +39,8 @@ public class AuthorizeController {
     private String client_secret;
 
     @GetMapping("/callback")
-    public String callback(@RequestParam(name = "code",required = false) String code, @RequestParam(name = "state",required = false) String state,
-                           HttpServletRequest request, HttpServletResponse response){
+    public String callback(@RequestParam(name = "code", required = false) String code, @RequestParam(name = "state", required = false) String state,
+                           HttpServletRequest request, HttpServletResponse response) {
 
         AccesstokenDTO accesstokenDTO = new AccesstokenDTO();
         accesstokenDTO.setClient_id(client_id);
@@ -51,20 +50,18 @@ public class AuthorizeController {
         accesstokenDTO.setRedirect_uri(redirect_uri);
         String accessToken = gitHubProvider.getaccesstokentDTO(accesstokenDTO);
         GitHubUser gitHubUseruser = gitHubProvider.getUser(accessToken);
-        if (null == gitHubUseruser){
+        if (null == gitHubUseruser) {
             return "redirect:/";
-        }else{
+        } else {
             User user = new User();
             user.setName(gitHubUseruser.getName());
             user.setAccountId(String.valueOf(gitHubUseruser.getId()));
             user.setToken(UUID.randomUUID().toString());
-            user.setGmtCreate(System.currentTimeMillis());
-            user.setGmtModified(user.getGmtCreate());
             user.setBio(gitHubUseruser.getBio());
             user.setAvatarUrl(gitHubUseruser.getAvatar_url());
-            userMapper.insertUser(user);
-            response.addCookie(new Cookie("token",user.getToken()));
-//            request.getSession().setAttribute("user",gitHubUseruser);
+            userService.insertUser(user);
+            response.addCookie(new Cookie("token", user.getToken()));
+            request.getSession().setAttribute("user", user);
             return "redirect:/";
         }
     }

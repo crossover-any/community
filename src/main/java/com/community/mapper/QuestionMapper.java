@@ -32,4 +32,7 @@ public interface QuestionMapper {
 
     @Select("Select count(1) from question where creator = #{id}")
     Integer listCountByUserId(Integer id);
+
+    @Select("Select * from question where id = #{id}")
+    Question findQuestionById(Integer id);
 }

@@ -44,9 +44,6 @@ public class ProfileController {
                 if (cookie.getName().equals("token")){
                     String token = cookie.getValue();
                     user = userMapper.findByToken(token);
-                    if (user != null){
-                        request.getSession().setAttribute("user",user);
-                    }
                     break;
                 }
             }
@@ -62,22 +59,7 @@ public class ProfileController {
 
     @GetMapping("/latestReply")
     public String latestReply( Model model, HttpServletRequest request){
-        Cookie[] cookies = request.getCookies();
-        User user = null;
-        if (null != cookies){
-            for(Cookie cookie : cookies){
-                if (cookie.getName().equals("token")){
-                    String token = cookie.getValue();
-                    user = userMapper.findByToken(token);
-                    if (user != null){
-                        request.getSession().setAttribute("user",user);
-                    }
-                    break;
-                }
-            }
-        }
-        if (null == user)
-            return "redirect:/";
+
         model.addAttribute("sectionName","最新回复");
         model.addAttribute("section","latestReply");
         return "profile";

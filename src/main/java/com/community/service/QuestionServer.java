@@ -34,7 +34,7 @@ public class QuestionServer {
         for (Question question : questionList) {
             QuestionDTO questionDTO = new QuestionDTO();
             BeanUtils.copyProperties(question, questionDTO);
-            questionDTO.setUser(userMapper.findById(question.getCreator()));
+            questionDTO.setUser(userMapper.findByAccountId(question.getCreator().toString()));
             list.add(questionDTO);
         }
         return list;
