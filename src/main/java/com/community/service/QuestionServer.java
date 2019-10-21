@@ -56,4 +56,20 @@ public class QuestionServer {
         paginationDTO.setQuestions(list);
         return paginationDTO;
     }
+
+    public void updateOrInsert(Question question){
+        if (null == question.getId()){
+            question.setGmtCreate(System.currentTimeMillis());
+            question.setGmtModified(System.currentTimeMillis());
+            questionMapper.insertQuestion(question);
+        }else {
+            question.setGmtModified(System.currentTimeMillis());
+            questionMapper.updateQuestion(question);
+        }
+    }
+
+    public Question findQuestionById(Integer id) {
+        Question question = questionMapper.findQuestionById(id);
+        return question;
+    }
 }

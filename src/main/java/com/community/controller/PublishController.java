@@ -4,11 +4,13 @@ import com.community.mapper.QuestionMapper;
 import com.community.mapper.UserMapper;
 import com.community.model.Question;
 import com.community.model.User;
+import com.community.service.QuestionServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -25,10 +27,22 @@ import javax.servlet.http.HttpServletRequest;
 public class PublishController {
 
     @Autowired
-    private QuestionMapper questionMapper;
+    private QuestionServer questionServer;
+
 
     @Autowired
     private UserMapper userMapper;
+
+
+    @GetMapping("/publish/{id}")
+    public String  updatePublish(@PathVariable("id")Integer id,Model model){
+        Question question = questionServer.findQuestionById(id);
+        model.addAttribute("title",question.getTitle());
+        model.addAttribute("description",question.getDescription());
+        model.addAttribute("tag",question.getTag());
+        return "publish";
+    }
+
     @GetMapping("/publish")
     public String toPublishView(){
         return "publish";
@@ -38,17 +52,10 @@ public class PublishController {
     public String addQuestion(@RequestParam(value = "title",required = false)String title,
                               @RequestParam(value = "tag",required = false)String tag,
                               @RequestParam(value = "description",required = false)String description,
+                              @RequestParam(value = "id",required = false)Integer id,
                               HttpServletRequest request,
                               Model model){
-        Cookie[] cookies = request.getCookies();
-        User user = null;
-        if (null != cookies ){
-            for(Cookie cookie : cookies){
-                if (cookie.getName().equals("token")){
-                    user = userMapper.findByToken(cookie.getValue());
-                }
-            }
-        }
+        User user = (User) request.getSession().getAttribute("user");
         if (null == user){
             return "redirect:/";
         }
@@ -75,7 +82,8 @@ public class PublishController {
         question.setCreator(Integer.parseInt(user.getAccountId()));
         question.setGmtCreate(System.currentTimeMillis());
         question.setGmtModified(question.getGmtCreate());
-        questionMapper.insertQuestion(question);
+        question.setId(id);
+        questionServer.updateOrInsert(question);
         return "redirect:/";
     }
 }
