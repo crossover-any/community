@@ -7,6 +7,7 @@ import com.community.mapper.QuestionMapper;
 import com.community.mapper.UserMapper;
 import com.community.model.Question;
 import com.community.model.User;
+import com.community.service.QuestionServer;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,6 +27,9 @@ import java.util.List;
 public class QuestionController {
 
     @Autowired
+    private QuestionServer questionServer;
+
+    @Autowired
     private QuestionMapper questionMapper;
 
     @Autowired
@@ -33,6 +37,7 @@ public class QuestionController {
 
     @GetMapping("/question/{id}")
     public String toQuestionView(@PathVariable("id")Integer id, Model model){
+        questionServer.updateViewCount(id);
         Question question = questionMapper.findQuestionById(id);
         if (question == null)
             throw  new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);

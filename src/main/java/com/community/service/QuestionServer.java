@@ -72,4 +72,8 @@ public class QuestionServer {
         Question question = questionMapper.findQuestionById(id);
         return question;
     }
+
+    public void updateViewCount(Integer id) {
+        questionMapper.updateViewCount(id);
+    }
 }
