@@ -12,7 +12,7 @@ import lombok.ToString;
 @Data
 @ToString
 public class Question {
-    private  Integer id;
+    private  Long id;
     private  String title;
     private  String description;
     private  String tag;

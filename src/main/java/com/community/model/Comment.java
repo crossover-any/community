@@ -10,12 +10,12 @@ import lombok.Data;
  */
 @Data
 public class Comment {
-    private long id;
-    private long parentId;
-    private int type;
-    private int commentator;
-    private long gmtCreate;
-    private long gmtModified;
-    private long likeCount;
+    private Long id;
+    private Long parentId;
+    private Integer type;
+    private Integer commentator;
+    private Long gmtCreate;
+    private Long gmtModified;
+    private Long likeCount;
     private String content;
 }

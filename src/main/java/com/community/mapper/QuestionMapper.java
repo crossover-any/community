@@ -31,7 +31,7 @@ public interface QuestionMapper {
     Integer listCountByUserId(Integer id);
 
     @Select("Select * from question where id = #{id}")
-    Question findQuestionById(Integer id);
+    Question findQuestionById(Long id);
 
     @Update("Update question set title = #{title},gmt_modified = #{gmtModified},description = #{description},tag = #{tag} where id = #{id}")
     void updateQuestion(Question question);
