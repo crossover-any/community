@@ -1,6 +1,7 @@
 package com.community.controller;
 
 import com.community.dto.CommentDTO;
+import com.community.dto.ResultDTO;
 import com.community.exception.CustomizeErrorCode;
 import com.community.exception.CustomizeException;
 import com.community.model.Comment;
@@ -43,6 +44,9 @@ public class   CommentController {
         comment.setLikeCount(Long.valueOf(1));
 
         commentService.insert(comment);
-        return null;
+        ResultDTO resultDTO = new ResultDTO();
+        resultDTO.setMessage("提交回复成功");
+        resultDTO.setCode(200);
+        return resultDTO;
     }
 }

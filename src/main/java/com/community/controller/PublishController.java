@@ -36,7 +36,7 @@ public class PublishController {
 
     @GetMapping("/publish/{id}")
     public String  updatePublish(@PathVariable("id")Integer id,Model model){
-        Question question = questionServer.findQuestionById(id);
+        Question question = questionServer.findQuestionById(Long.valueOf(id));
         model.addAttribute("title",question.getTitle());
         model.addAttribute("description",question.getDescription());
         model.addAttribute("tag",question.getTag());
@@ -82,7 +82,7 @@ public class PublishController {
         question.setCreator(Integer.parseInt(user.getAccountId()));
         question.setGmtCreate(System.currentTimeMillis());
         question.setGmtModified(question.getGmtCreate());
-        question.setId(id);
+        question.setId(Long.valueOf(id));
         questionServer.updateOrInsert(question);
         return "redirect:/";
     }

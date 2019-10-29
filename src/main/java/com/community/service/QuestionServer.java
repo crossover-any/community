@@ -68,7 +68,7 @@ public class QuestionServer {
         }
     }
 
-    public Question findQuestionById(Integer id) {
+    public Question findQuestionById(Long id) {
         Question question = questionMapper.findQuestionById(id);
         return question;
     }

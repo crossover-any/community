@@ -31,10 +31,16 @@ public class CommentService {
         if (comment.getType() == null){
             throw new CustomizeException(CustomizeErrorCode.TARTGET_PARAM_NOT_FOUND);
         }
+        if ("".equals(comment.getContent()) || null == comment.getContent()){
+            throw  new CustomizeException(CustomizeErrorCode.CONTENT_IS_NULL);
+        }
         if (comment.getType().equals(CommentTypeEnum.COMMENT.getType()) ){
             Comment dbComment = commentMapper.selectByPrimaryKey(comment.getParentId());
         }else{
             Question question = questionMapper.findQuestionById(comment.getParentId());
+            if (question == null){
+                throw  new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+            }
         }
         commentMapper.insert(comment);
     }

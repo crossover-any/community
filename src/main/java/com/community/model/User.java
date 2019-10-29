@@ -21,4 +21,8 @@ public class User {
     private Long gmtModified;
     private String bio;
     private String avatarUrl;
+
+    public User(){
+
+    }
 }

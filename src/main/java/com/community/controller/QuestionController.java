@@ -38,7 +38,7 @@ public class QuestionController {
     @GetMapping("/question/{id}")
     public String toQuestionView(@PathVariable("id")Integer id, Model model){
         questionServer.updateViewCount(id);
-        Question question = questionMapper.findQuestionById(id);
+        Question question = questionMapper.findQuestionById(Long.valueOf(id));
         if (question == null)
             throw  new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
         User user = userMapper.findByAccountId(question.getCreator().toString());
