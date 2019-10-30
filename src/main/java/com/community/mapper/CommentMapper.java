@@ -3,7 +3,10 @@ package com.community.mapper;
 import com.community.model.Comment;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 /**
  * @Author Tengxq
@@ -19,5 +22,8 @@ public interface CommentMapper {
     public void insert(Comment comment);
 
     @Select("select * from comment where id = #{id}")
-    Comment selectByPrimaryKey(Long parentId);
+    Comment selectByPrimaryKey(Long Id);
+
+    @Select("select * from comment where parent_id = #{questionId} and Type = #{type}")
+    List<Comment> listByQuestionId(@Param("questionId") long qustionId, @Param("type") Integer type);
 }

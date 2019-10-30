@@ -2,10 +2,10 @@ package com.community.mapper;
 
 
 import com.community.model.User;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
+
+import java.util.List;
+import java.util.Set;
 
 /**
  * @Classname UserMapper
@@ -30,4 +30,14 @@ public interface UserMapper {
 
     @Update("Update user set name = #{name},token = #{token},gmt_modified = #{gmtModified},bio = #{bio},avatar_url = #{avatarUrl}")
     void updateUser(User user);
+
+    @Select({
+            "<script>",
+            "select * from user where account_id in",
+            "<foreach collection='commentators' item='id' open='(' separator=',' close=')'>",
+            "#{id}",
+            "</foreach>",
+            "</script>"
+    })
+    List<User> list(@Param("commentators") Object[] commentators);
 }

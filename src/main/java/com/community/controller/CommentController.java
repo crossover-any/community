@@ -35,7 +35,7 @@ public class   CommentController {
             throw new CustomizeException(CustomizeErrorCode.NOT_LOGIN);
         }
         Comment comment = new Comment();
-        comment.setCommentator(1);;
+        comment.setCommentator(Long.valueOf(user.getAccountId()));;
         comment.setContent(commentDTO.getContent());
         comment.setParentId(commentDTO.getParentId());
         comment.setType(commentDTO.getType());
