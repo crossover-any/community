@@ -51,4 +51,10 @@ public class HelloController {
         model.addAttribute("page",paginationDTO);
         return "index";
     }
+
+    @GetMapping("/lgout")
+    public String loginOut(HttpServletRequest request){
+        request.getSession().removeAttribute("user");
+        return "redirect:/";
+    }
 }

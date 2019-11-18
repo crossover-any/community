@@ -60,6 +60,9 @@ public class CommentService {
 
     public List<CommentDTO> listByQuestionId(long qustionId) {
         List<Comment> list = commentMapper.listByQuestionId(qustionId,CommentTypeEnum.QUESTION.getType());
+        if (list.size()<1){
+            return new ArrayList<CommentDTO>();
+        }
         Set<Long> commentators =  list.stream().map(comment -> comment.getCommentator()).collect(Collectors.toSet());
         List<User> userList = userMapper.list(commentators.toArray());
         Map<String,User> userMap = userList.stream().collect(Collectors.toMap(o -> o.getAccountId(),o->o));

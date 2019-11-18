@@ -79,10 +79,12 @@ public class PublishController {
         question.setTag(tag);
         question.setTitle(title);
         question.setDescription(description);
-        question.setCreator(Integer.parseInt(user.getAccountId()));
+        question.setCreator(Long.valueOf(user.getAccountId()));
         question.setGmtCreate(System.currentTimeMillis());
         question.setGmtModified(question.getGmtCreate());
-        question.setId(Long.valueOf(id));
+        if (!StringUtils.isEmpty(id)){
+            question.setId(Long.valueOf(id));
+        }
         questionServer.updateOrInsert(question);
         return "redirect:/";
     }

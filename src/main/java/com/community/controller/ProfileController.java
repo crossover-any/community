@@ -48,8 +48,9 @@ public class ProfileController {
                 }
             }
         }
-        if (null == user)
+        if (null == user){
             return "redirect:/";
+        }
         PaginationDTO paginationDTO =  questionServer.myQuestionsPage(page,size,user);
         model.addAttribute("sectionName","我的问题");
         model.addAttribute("section","myQuestions");
